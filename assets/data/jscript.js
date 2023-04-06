@@ -79,3 +79,22 @@ function getClass(objSemester) {
         classId.add(option);
     };
 };
+
+function getStu(objClass) {
+    // set variables
+    var classNum = objClass.options[objClass.selectedIndex].value;
+    var aryStus = eval(`ary${classNum}`);
+    var stuId = document.getElementById('studentList');
+    var option = document.createElement('option');
+
+    // reset student list
+    stuId.length = 0;
+
+    //populate student list from array
+    for (x = 0; x < aryStus.length; x++) {
+        var option = document.createElement('option');
+        option.value = aryStus[x][0];
+        option.text = aryStus[x][1];
+        stuId.add(option);
+    };
+};
