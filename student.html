@@ -15,12 +15,12 @@
             <table>
                 <tr>
                     <td colspan="5">
-                        <select id="semesterList" style="width:100%"></select>
+                        <select id="semesterList" style="width:100%" onchange="getClass(this)"></select>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="5">
-                        <select id="classList" style="width:100%"></select>
+                        <select id="classList" style="width:100%" onchange="getStu(this)"></select>
                     </td>
                 </tr>
                 <tr>
@@ -54,8 +54,8 @@
                         >
                     </td>
                     <td style="text-align: right;">
-                        <button>Delete</button>
-                        <button>Add</button>
+                        <button onclick="deleteStu()">Delete</button>
+                        <button onclick="addStu()">Add</button>
                     </td>
                 </tr>
             </table>
@@ -67,6 +67,43 @@
 <script>
 
     getMenu();
+    getSemester();
+
+    function deleteStu() {
+        // set variables
+        var stuIndex = document.getElementById("studentList").selectedIndex;
+        var classId = document.querySelector('#classList').selectedOptions[0].value;
+        var ary = eval(`ary${classId}`);
+
+        // validate that student is selected
+        if (stuIndex < 0) {
+            alert('Please select the class you want to delete.');
+            return;
+        };
+
+        // remove student from array and redisplay list
+        ary.splice(stuIndex, 1);
+        getStu(document.getElementById('classList'));
+    };
+
+    function addStu() {
+        // set up variables
+        var classId = document.querySelector('#classList').selectedOptions[0].value;
+        var meid = document.getElementById('meid').value;
+        var lastName = document.getElementById('lastName').value;
+        var firstName = document.getElementById('firstName').value;
+        var ary = eval(`ary${classId}`);
+        // push new student to array
+        var newAry = ary.push([`${meid}`,`${lastName}, ${firstName}`]);
+
+        // reset input fields
+        document.getElementById('meid').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('firstName').value = '';
+
+        // reload page with new values
+        getStu(document.getElementById('classList'));
+    };
 
 </script>
 </html>
